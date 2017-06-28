@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/mightypreferences/build
+/captures
+.externalNativeBuild
+/app/build
+/bintray.bat
+.idea/
+/.idea
+/build
