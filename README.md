@@ -1,7 +1,7 @@
 [ ![Download](https://api.bintray.com/packages/illuzor/maven/MightyPreferences/images/download.svg) ](https://bintray.com/illuzor/maven/MightyPreferences/_latestVersion)
 [![Build Status](https://travis-ci.org/illuzor/Mighty-Preferences.svg?branch=master)](https://travis-ci.org/illuzor/Mighty-Preferences)
 
-# Migthy-Preferences
+# Mighty-Preferences
 
 Kotlin library for android. Wrapper for [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences.html) which provides additional possibilities.
 
@@ -10,7 +10,7 @@ How to use
 #### Gradle dependency
 
 ```groovy
-compile 'com.illuzor.migthypreferences:migthypreferences:0.0.2'
+compile 'com.illuzor.mightypreferences:mightypreferences:0.0.3'
 ```
 #### Initialization
 
