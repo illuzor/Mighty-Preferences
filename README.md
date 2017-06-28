@@ -1,5 +1,5 @@
-[ ![Download](https://api.bintray.com/packages/illuzor/maven/MigthyPreferences/images/download.svg) ](https://bintray.com/illuzor/maven/MigthyPreferences/_latestVersion)
-[![Build Status](https://travis-ci.org/illuzor/Migthy-Preferences.svg?branch=master)](https://travis-ci.org/illuzor/Migthy-Preferences)
+[ ![Download](https://api.bintray.com/packages/illuzor/maven/MightyPreferences/images/download.svg) ](https://bintray.com/illuzor/maven/MightyPreferences/_latestVersion)
+[![Build Status](https://travis-ci.org/illuzor/Mighty-Preferences.svg?branch=master)](https://travis-ci.org/illuzor/Mighty-Preferences)
 
 # Migthy-Preferences
 
