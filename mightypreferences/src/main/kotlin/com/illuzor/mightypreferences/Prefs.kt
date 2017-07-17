@@ -116,6 +116,7 @@ class Prefs(private val prefs: SharedPreferences) {
             }
 
     fun contains(key: String) = prefs.contains(key)
+    fun containsAll(keys: Array<String>) = keys.all { contains(it) }
     fun notContains(key: String) = !prefs.contains(key)
     fun clear() = prefs.edit().clear().apply()
     fun remove(key: String) {

@@ -25,6 +25,8 @@ class CommonTests {
         assertTrue(prefs.contains("param1"))
         assertTrue(prefs.contains("param2"))
 
+        assertTrue(prefs.containsAll(arrayOf("param1", "param2")))
+
         prefs.clear()
 
         assertTrue(prefs.notContains("param1"))
