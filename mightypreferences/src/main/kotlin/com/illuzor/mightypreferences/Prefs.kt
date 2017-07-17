@@ -3,6 +3,7 @@ package com.illuzor.mightypreferences
 import android.content.SharedPreferences
 import java.util.*
 
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
 class Prefs(private val prefs: SharedPreferences) {
 
     companion object {
@@ -57,7 +58,6 @@ class Prefs(private val prefs: SharedPreferences) {
         putString(key + C_POSTFIX, "$cClass:$cGeneric")
     }
 
-    @Suppress("UNCHECKED_CAST", "PLATFORM_CLASS_MAPPED_TO_KOTLIN")
     fun <T : Any> getCollection(key: String, separator: String = ","): java.util.Collection<T> {
         if (notContains(key) || notContains(key + C_POSTFIX)) return LinkedList<T>() as java.util.Collection<T>
 
@@ -88,7 +88,6 @@ class Prefs(private val prefs: SharedPreferences) {
         putString(key + M_POSTFIX, "${map.javaClass.name}:$keyClass:$valueClass")
     }
 
-    @Suppress("UNCHECKED_CAST", "PLATFORM_CLASS_MAPPED_TO_KOTLIN")
     fun <K, V> getMap(key: String, separator1: String = ":", separator2: String = ","): Map<K, V> {
         if (notContains(key) || notContains(key + M_POSTFIX)) return mapOf()
 
