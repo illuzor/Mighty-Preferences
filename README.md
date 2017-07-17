@@ -140,6 +140,7 @@ Prefs.DEFAULT_DOUBLE = 123.14
 
 ```kotlin
 prefs.contains("key") // returns true if entry exist
+prefs.containsAll(arrayOf("param1", "param2", "param3") // returns true if all entries exist
 prefs.notContains("key") // returns true if entry not exist
 prefs.remove("key") // removes entry
 prefs.clear() // removes all entries
