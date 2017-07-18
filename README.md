@@ -10,7 +10,7 @@ How to use
 #### Gradle dependency
 
 ```groovy
-compile 'com.illuzor.mightypreferences:mightypreferences:0.0.3'
+compile 'com.illuzor.mightypreferences:mightypreferences:0.0.4'
 ```
 #### Initialization
 
