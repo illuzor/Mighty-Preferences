@@ -12,7 +12,7 @@ class MapsTests {
 
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
-    private class TestCustomMap<K, V> : HashMap<K, V>(), Map<K, V>
+    private class TestCustomMap<K, V> : HashMap<K, V>()
 
     @Test
     @Throws(Exception::class)

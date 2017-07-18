@@ -24,11 +24,11 @@ class CollectionsTests {
         val list2 = prefs.getCollection<Int>("list1")
         assertEquals(list2.javaClass.simpleName, "ArrayList")
 
-        prefs.putCollection("set1",hashSetOf( 12f, Float.MIN_VALUE, Float.MAX_VALUE))
+        prefs.putCollection("set1", hashSetOf(12f, Float.MIN_VALUE, Float.MAX_VALUE))
         val set1 = prefs.getCollection<Float>("set1")
         assertEquals(set1.javaClass.simpleName, "HashSet")
 
-        prefs.putCollection("set2", linkedSetOf(1,2,3,4,5,6))
+        prefs.putCollection("set2", linkedSetOf(1, 2, 3, 4, 5, 6))
         val set2 = prefs.getCollection<Int>("set2")
         assertEquals(set2.javaClass.simpleName, "LinkedHashSet")
 

@@ -18,6 +18,7 @@ class Prefs(private val prefs: SharedPreferences) {
 
     private val M_POSTFIX = "_mapClasses"
     private val C_POSTFIX = "_collectionClasses"
+    private val A_POSTFIX = "_arrayClasses"
     private var changeListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
@@ -67,7 +68,7 @@ class Prefs(private val prefs: SharedPreferences) {
 
         val collectionInstance = Class.forName(types[0]).newInstance() as java.util.Collection<T>
         values.forEach { value ->
-            collectionInstance.add(toType(value, valuesType) as T)
+            collectionInstance.add(typeFromString(value, valuesType) as T)
         }
 
         return collectionInstance
@@ -98,13 +99,41 @@ class Prefs(private val prefs: SharedPreferences) {
 
         pairsArray.forEach { string ->
             val pair = string.split(separator1)
-            mapInstance.put(toType(pair[0], types[1]) as K, toType(pair[1], types[2]) as V)
+            mapInstance.put(typeFromString(pair[0], types[1]) as K, typeFromString(pair[1], types[2]) as V)
         }
 
         return mapInstance as Map<K, V>
     }
 
-    private fun toType(str: String, type: String): Any =
+    fun <T : Any> putArray(key: String, array: Array<T>, separator: String = ",") {
+        if (array.isEmpty()) return
+
+        var string = ""
+        array.forEachIndexed { i, value ->
+            if (i > 0) string += separator
+            string += value.toString()
+        }
+
+        val cGeneric = array.elementAt(0).javaClass.simpleName
+
+        putString(key, string)
+        putString(key + A_POSTFIX, cGeneric)
+    }
+
+    fun <T : Any> getArray(key: String, separator: String = ","): Array<Any> {
+        if (notContains(key) || notContains(key + A_POSTFIX)) return emptyArray()
+
+        val values = getString(key).split(separator)
+        val type = getString(key + A_POSTFIX)
+
+        val array: Array<Any> = Array(values.size, { 0 })
+        values.forEachIndexed { i, value ->
+            array[i] = typeFromString(value, type) as T
+        }
+        return array
+    }
+
+    private fun typeFromString(str: String, type: String): Any =
             when (type) {
                 "Boolean" -> str.toBoolean()
                 "Byte" -> str.toByte()
@@ -122,15 +151,18 @@ class Prefs(private val prefs: SharedPreferences) {
     fun remove(key: String) {
         val editor = prefs.edit()
         editor.remove(key)
-        if (contains(key + M_POSTFIX)) editor.remove(key + M_POSTFIX)
-        if (contains(key + C_POSTFIX)) editor.remove(key + C_POSTFIX)
+        when {
+            contains(key + M_POSTFIX) -> editor.remove(key + M_POSTFIX)
+            contains(key + C_POSTFIX) -> editor.remove(key + C_POSTFIX)
+            contains(key + A_POSTFIX) -> editor.remove(key + A_POSTFIX)
+        }
         editor.apply()
     }
 
     fun onChange(listener: (String) -> Unit) {
         removeListener()
         changeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (!key.contains(M_POSTFIX) && !key.contains(C_POSTFIX))
+            if (!key.contains(M_POSTFIX) && !key.contains(C_POSTFIX) && !key.contains(A_POSTFIX))
                 listener(key)
         }
         prefs.registerOnSharedPreferenceChangeListener(changeListener)
@@ -139,7 +171,7 @@ class Prefs(private val prefs: SharedPreferences) {
     fun onChange(listener: (Prefs, String) -> Unit) {
         removeListener()
         changeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (!key.contains(M_POSTFIX) && !key.contains(C_POSTFIX))
+            if (!key.contains(M_POSTFIX) && !key.contains(C_POSTFIX) && !key.contains(A_POSTFIX))
                 listener(this, key)
         }
         prefs.registerOnSharedPreferenceChangeListener(changeListener)

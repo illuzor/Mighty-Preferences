@@ -75,7 +75,7 @@ class CommonTests {
         prefs.putMap("map", mapOf(Pair(1, 2)))
         prefs.removeListener()
 
-        prefs.onChange{p, key ->
+        prefs.onChange { p, key ->
             assertEquals(p, prefs)
             assertEquals(key, "s")
         }

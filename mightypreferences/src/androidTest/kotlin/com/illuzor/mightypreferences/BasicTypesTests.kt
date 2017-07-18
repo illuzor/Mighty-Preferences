@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.assertEquals
 
 @RunWith(AndroidJUnit4::class)
-class BasicTypesTest {
+class BasicTypesTests {
 
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
