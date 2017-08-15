@@ -10,6 +10,10 @@ How to use
 #### Gradle dependency
 
 ```groovy
+repositories {
+    jcenter()
+}
+
 compile 'com.illuzor.mightypreferences:mightypreferences:0.0.5'
 ```
 #### Initialization
