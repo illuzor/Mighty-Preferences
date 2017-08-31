@@ -47,5 +47,5 @@ publish {
     desc = 'Kotlin library for andriod. Wrapper for SharedPreferences which provides additional possibilities.'
     licences = ['MIT']
     uploadName='MightyPreferences'
-    website = 'https://github.com/illuzor/Mighty-Preferences.git'
+    website = 'https://github.com/illuzor/Mighty-Preferences'
 }
