@@ -4,10 +4,11 @@ android:
     - tools
     - build-tools-27.0.3
     - android-27
+    - sys-img-armeabi-v7a-android-27
 before_install:
     - yes | sdkmanager "platforms;android-27"
     - yes | sdkmanager "build-tools;27.0.3"
 jdk:
     - oraclejdk8
 script:
-    - ./gradlew clean build
+    - ./gradlew clean build connectedCheck
