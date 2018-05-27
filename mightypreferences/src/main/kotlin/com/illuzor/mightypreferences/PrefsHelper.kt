@@ -5,6 +5,8 @@ object PrefsHelper {
 
     private lateinit var prefs: Prefs
 
+    fun getPrefs() = prefs
+
     fun init(prefs: Prefs) {
         this.prefs = prefs
     }
