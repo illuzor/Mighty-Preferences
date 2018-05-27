@@ -15,7 +15,7 @@ repositories {
     jcenter()
 }
 
-compile 'com.illuzor.mightypreferences:mightypreferences:0.0.6'
+implementation 'com.illuzor.mightypreferences:mightypreferences:0.0.6'
 ```
 #### Initialization
 
