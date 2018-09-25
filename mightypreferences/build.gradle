@@ -1,7 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
-def version = '0.0.6'
+ext {
+    version = '0.0.8'
+    siteUrl = 'https://github.com/illuzor/Mighty-Preferences'
+    gitUrl = 'https://github.com/illuzor/Mighty-Preferences.git'
+}
 
 android {
     compileSdkVersion 28
@@ -9,7 +15,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 7
+        versionCode 8
         versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -32,4 +38,77 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'MightyPreferences'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://github.com/illuzor/Mighty-Preferences/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id bintrayId
+                        name bintrayName
+                        email bintrayEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task classesJar(type: Jar) {
+    from "$buildDir/intermediates/classes/release"
+}
+
+artifacts {
+    archives classesJar
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = bintrayName
+    key = bintrayKey
+
+    configurations = ['archives']
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = 'com.illuzor.mightypreferences:mightypreferences'
+        desc = 'Kotlin library for andriod. Wrapper for SharedPreferences which provides additional possibilities.'
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['MIT']
+        labels = ['kotlin', 'android', 'library']
+        publicDownloadNumbers = true
+    }
 }
