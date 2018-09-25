@@ -3,8 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
+version = '0.0.8'
+group = 'com.illuzor.mightypreferences'
+
 ext {
-    version = '0.0.8'
     siteUrl = 'https://github.com/illuzor/Mighty-Preferences'
     gitUrl = 'https://github.com/illuzor/Mighty-Preferences.git'
 }
@@ -55,9 +57,9 @@ install {
                 }
                 developers {
                     developer {
-                        id bintrayId
-                        name bintrayName
-                        email bintrayEmail
+                        id = project.findProperty("bintrayId")
+                        name = project.findProperty("bintrayName")
+                        email = project.findProperty("bintrayEmail")
                     }
                 }
                 scm {
@@ -75,40 +77,28 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.sourceFiles
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 task classesJar(type: Jar) {
     from "$buildDir/intermediates/classes/release"
 }
 
 artifacts {
     archives classesJar
-    archives javadocJar
     archives sourcesJar
 }
 
 bintray {
-    user = bintrayName
-    key = bintrayKey
+    user = project.findProperty("bintrayName")
+    key = project.findProperty("bintrayKey")
 
     configurations = ['archives']
     publish = true
     pkg {
         repo = 'maven'
-        name = 'com.illuzor.mightypreferences:mightypreferences'
+        name = 'MightyPreferences'
         desc = 'Kotlin library for andriod. Wrapper for SharedPreferences which provides additional possibilities.'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['MIT']
-        labels = ['kotlin', 'android', 'library']
         publicDownloadNumbers = true
     }
 }
