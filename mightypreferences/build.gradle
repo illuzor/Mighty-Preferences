@@ -1,16 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.novoda.bintray-release'
 
 def version = '0.0.6'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 5
+        targetSdkVersion 28
+        versionCode 7
         versionName version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -33,14 +32,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
-
-publish {
-    groupId = 'com.illuzor.mightypreferences'
-    artifactId = 'mightypreferences'
-    publishVersion = version
-    desc = 'Kotlin library for andriod. Wrapper for SharedPreferences which provides additional possibilities.'
-    licences = ['MIT']
-    uploadName='MightyPreferences'
-    website = 'https://github.com/illuzor/Mighty-Preferences'
 }
