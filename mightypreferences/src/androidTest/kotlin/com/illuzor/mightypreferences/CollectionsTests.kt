@@ -12,7 +12,6 @@ class CollectionsTests {
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
     @Test
-    @Throws(Exception::class)
     fun types() {
         prefs.putCollection("list1", arrayListOf("hello", "my", "dear", "friend", "dfgdgdg"))
 
@@ -37,7 +36,6 @@ class CollectionsTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun equality() {
 
         val list1 = arrayListOf("hello", "my", "dear", "friend", "dfgdgdg")
@@ -60,7 +58,6 @@ class CollectionsTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun separator() {
         val list1 = arrayListOf("hello, friend", "let`go,")
         prefs.putCollection("list1", list1, "$$")

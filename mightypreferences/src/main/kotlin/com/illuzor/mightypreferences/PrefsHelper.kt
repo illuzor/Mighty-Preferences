@@ -33,7 +33,7 @@ object PrefsHelper {
     fun getBool(key: String, default: Boolean = Prefs.DEFAULT_BOOL): Boolean = prefs.getBool(key, default)
 
     fun <T : Any> putCollection(key: String, collection: Collection<T>, separator: String = ",") = prefs.putCollection(key, collection, separator)
-    fun <T : Any> getCollection(key: String, separator: String = ","): java.util.Collection<T> = prefs.getCollection(key, separator)
+    fun <T : Any> getCollection(key: String, separator: String = ","): Collection<T> = prefs.getCollection(key, separator)
 
     fun <K : Any, V : Any> putMap(key: String, map: Map<K, V>, separator1: String = ":", separator2: String = ",") = prefs.putMap(key, map, separator1, separator2)
     fun <K, V> getMap(key: String, separator1: String = ":", separator2: String = ","): Map<K, V> = prefs.getMap(key, separator1, separator2)

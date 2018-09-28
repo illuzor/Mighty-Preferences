@@ -12,7 +12,6 @@ class CommonTests {
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
     @Test
-    @Throws(Exception::class)
     fun addRemoveClear() {
         prefs.putString("param1", "p1")
         assertTrue(prefs.contains("param1"))
@@ -34,7 +33,6 @@ class CommonTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun bools() {
         prefs.putBool("b1", true)
         prefs.putBool("b2", false)
@@ -43,7 +41,6 @@ class CommonTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun defaults() {
         prefs.clear()
 
@@ -59,7 +56,6 @@ class CommonTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun listeners() {
         prefs.clear()
 
@@ -81,7 +77,6 @@ class CommonTests {
         }
         prefs.putString("s", "str")
         prefs.removeListener()
-
     }
 
 }

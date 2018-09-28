@@ -14,7 +14,6 @@ class BasicTypesTests {
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
     @Test
-    @Throws(Exception::class)
     fun strings() {
         val str1 = "Hello"
         val str2 = "Helloooo!!!"
@@ -30,7 +29,6 @@ class BasicTypesTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun bytes() {
         val byte1: Byte = 7
         val byte2 = Byte.MAX_VALUE
@@ -46,7 +44,6 @@ class BasicTypesTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun ints() {
         val int1 = 224
         val int2 = Int.MAX_VALUE
@@ -62,7 +59,6 @@ class BasicTypesTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun longs() {
         val long1 = 333L
         val long2 = Long.MAX_VALUE
@@ -78,7 +74,6 @@ class BasicTypesTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun floats() {
         val float1 = 0.123f
         val float2 = Float.MAX_VALUE
@@ -94,9 +89,8 @@ class BasicTypesTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun doubles() {
-        val double1: Double = 0.123456789123
+        val double1 = 0.123456789123
         val double2 = Double.MAX_VALUE
         val double3 = Double.MIN_VALUE
 

@@ -11,7 +11,6 @@ class ArraysTests {
     private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
 
     @Test
-    @Throws(Exception::class)
     fun equality() {
 
         val array1 = arrayOf("hello", "my", "dear", "friend", "dfgdgdg")
@@ -33,7 +32,6 @@ class ArraysTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun separator() {
         val array1 = arrayOf("hello, friend", "let`go,")
         prefs.putArray("array1", array1, "$$")

@@ -3,7 +3,7 @@ package com.illuzor.mightypreferences
 import android.content.SharedPreferences
 import java.util.*
 
-@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
+@Suppress("PrivatePropertyName")
 class Prefs(private val prefs: SharedPreferences) {
 
     companion object {
@@ -11,7 +11,7 @@ class Prefs(private val prefs: SharedPreferences) {
         var DEFAULT_BOOL = false
         var DEFAULT_INT = 0
         var DEFAULT_FLOAT = 0f
-        var DEFAULT_DOUBLE: Double = 0.0
+        var DEFAULT_DOUBLE = 0.0
         var DEFAULT_LONG = 0L
         var DEFAULT_BYTE: Byte = 0x00
     }
@@ -22,13 +22,13 @@ class Prefs(private val prefs: SharedPreferences) {
     private var changeListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
-    fun getString(key: String, default: String = DEFAULT_STRING): String = prefs.getString(key, default)
+    fun getString(key: String, default: String = DEFAULT_STRING): String = prefs.getString(key, default)!!
 
     fun putFloat(key: String, value: Float) = prefs.edit().putFloat(key, value).apply()
     fun getFloat(key: String, default: Float = DEFAULT_FLOAT): Float = prefs.getFloat(key, default)
 
     fun putDouble(key: String, value: Double) = prefs.edit().putString(key, value.toString()).apply()
-    fun getDouble(key: String, default: Double = DEFAULT_DOUBLE): Double = prefs.getString(key, default.toString()).toDouble()
+    fun getDouble(key: String, default: Double = DEFAULT_DOUBLE): Double = prefs.getString(key, default.toString())!!.toDouble()
 
     fun putLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
     fun getLong(key: String, default: Long = DEFAULT_LONG): Long = prefs.getLong(key, default)
@@ -59,14 +59,15 @@ class Prefs(private val prefs: SharedPreferences) {
         putString(key + C_POSTFIX, "$cClass:$cGeneric")
     }
 
-    fun <T : Any> getCollection(key: String, separator: String = ","): java.util.Collection<T> {
-        if (notContains(key) || notContains(key + C_POSTFIX)) return LinkedList<T>() as java.util.Collection<T>
+    @Suppress("UNCHECKED_CAST")
+    fun <T : Any> getCollection(key: String, separator: String = ","): Collection<T> {
+        if (notContains(key) || notContains(key + C_POSTFIX)) return LinkedList()
 
         val values = getString(key).split(separator)
         val types = getString(key + C_POSTFIX).split(":")
         val valuesType = types[1]
 
-        val collectionInstance = Class.forName(types[0]).newInstance() as java.util.Collection<T>
+        val collectionInstance = Class.forName(types[0]).newInstance() as MutableCollection<T>
         values.forEach { value ->
             collectionInstance.add(typeFromString(value, valuesType) as T)
         }
@@ -89,20 +90,21 @@ class Prefs(private val prefs: SharedPreferences) {
         putString(key + M_POSTFIX, "${map.javaClass.name}:$keyClass:$valueClass")
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <K, V> getMap(key: String, separator1: String = ":", separator2: String = ","): Map<K, V> {
         if (notContains(key) || notContains(key + M_POSTFIX)) return mapOf()
 
         val types = getString(key + M_POSTFIX).split(":")
 
-        val mapInstance = Class.forName(types[0]).newInstance() as java.util.Map<K, V>
+        val mapInstance = Class.forName(types[0]).newInstance() as MutableMap<K, V>
         val pairsArray = getString(key).split(separator2)
 
         pairsArray.forEach { string ->
             val pair = string.split(separator1)
-            mapInstance.put(typeFromString(pair[0], types[1]) as K, typeFromString(pair[1], types[2]) as V)
+            mapInstance[typeFromString(pair[0], types[1]) as K] = typeFromString(pair[1], types[2]) as V
         }
 
-        return mapInstance as Map<K, V>
+        return mapInstance
     }
 
     fun <T : Any> putArray(key: String, array: Array<T>, separator: String = ",") {
@@ -120,13 +122,14 @@ class Prefs(private val prefs: SharedPreferences) {
         putString(key + A_POSTFIX, cGeneric)
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : Any> getArray(key: String, separator: String = ","): Array<Any> {
         if (notContains(key) || notContains(key + A_POSTFIX)) return emptyArray()
 
         val values = getString(key).split(separator)
         val type = getString(key + A_POSTFIX)
 
-        val array: Array<Any> = Array(values.size, { 0 })
+        val array: Array<Any> = Array(values.size) { 0 }
         values.forEachIndexed { i, value ->
             array[i] = typeFromString(value, type) as T
         }

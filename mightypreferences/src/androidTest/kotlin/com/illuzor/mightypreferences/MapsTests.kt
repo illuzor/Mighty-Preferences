@@ -15,7 +15,6 @@ class MapsTests {
     private class TestCustomMap<K, V> : HashMap<K, V>()
 
     @Test
-    @Throws(Exception::class)
     fun types() {
         val pair = Pair("str1", "str2")
 
@@ -43,7 +42,6 @@ class MapsTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun equality() {
         val map1 = hashMapOf(Pair("key1", "value1"), Pair("key2", "value2"), Pair("key3", "value3"))
         prefs.putMap("map1", map1)
@@ -67,7 +65,6 @@ class MapsTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun separators() {
         val map1 = mapOf(Pair("Hello, friend", "oh hello"), Pair("Hello, friend2", "oh hello2"))
         prefs.putMap("map1", map1, separator2 = "#")
