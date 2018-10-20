@@ -1,7 +1,7 @@
 package com.illuzor.mightypreferences
 
 import android.content.SharedPreferences
-import java.util.*
+import java.util.LinkedList
 
 @Suppress("PrivatePropertyName")
 class Prefs(private val prefs: SharedPreferences) {
@@ -45,10 +45,11 @@ class Prefs(private val prefs: SharedPreferences) {
     fun <T : Any> putCollection(key: String, collection: Collection<T>, separator: String = ",") {
         if (collection.isEmpty()) return
 
-        var string = ""
-        collection.forEachIndexed { i, value ->
-            if (i > 0) string += separator
-            string += value.toString()
+        val string = buildString {
+            collection.forEachIndexed { i, value ->
+                if (i > 0) append(separator)
+                append(value.toString())
+            }
         }
 
         var cClass = collection.javaClass.name
@@ -64,10 +65,11 @@ class Prefs(private val prefs: SharedPreferences) {
         if (notContains(key) || notContains(key + C_POSTFIX)) return LinkedList()
 
         val values = getString(key).split(separator)
-        val types = getString(key + C_POSTFIX).split(":")
-        val valuesType = types[1]
+        val types = getString(key + C_POSTFIX)
+        val collectionType = types.substringBefore(":")
+        val valuesType = types.substringAfter(":")
 
-        val collectionInstance = Class.forName(types[0]).newInstance() as MutableCollection<T>
+        val collectionInstance = Class.forName(collectionType).newInstance() as MutableCollection<T>
         values.forEach { value ->
             collectionInstance.add(typeFromString(value, valuesType) as T)
         }
@@ -77,10 +79,10 @@ class Prefs(private val prefs: SharedPreferences) {
 
     fun <K : Any, V : Any> putMap(key: String, map: Map<K, V>, separator1: String = ":", separator2: String = ",") {
         if (map.isEmpty()) return
-        var string = ""
-
-        map.forEach { entry ->
-            string += "${entry.key}$separator1${entry.value}$separator2"
+        val string = buildString {
+            map.forEach { (key, value) ->
+                append("$key$separator1$value$separator2")
+            }
         }
 
         val keyClass = map.keys.iterator().next().javaClass.simpleName
@@ -94,14 +96,17 @@ class Prefs(private val prefs: SharedPreferences) {
     fun <K, V> getMap(key: String, separator1: String = ":", separator2: String = ","): Map<K, V> {
         if (notContains(key) || notContains(key + M_POSTFIX)) return mapOf()
 
-        val types = getString(key + M_POSTFIX).split(":")
+        val types = getString(key + M_POSTFIX)
+        val mapType = types.substringBefore(":")
+        val keyType = types.substringBeforeLast(":").substringAfter(":")
+        val valueType = types.substringAfterLast(":")
 
-        val mapInstance = Class.forName(types[0]).newInstance() as MutableMap<K, V>
+        val mapInstance = Class.forName(mapType).newInstance() as MutableMap<K, V>
         val pairsArray = getString(key).split(separator2)
 
         pairsArray.forEach { string ->
             val pair = string.split(separator1)
-            mapInstance[typeFromString(pair[0], types[1]) as K] = typeFromString(pair[1], types[2]) as V
+            mapInstance[typeFromString(pair[0], keyType) as K] = typeFromString(pair[1], valueType) as V
         }
 
         return mapInstance
@@ -110,10 +115,11 @@ class Prefs(private val prefs: SharedPreferences) {
     fun <T : Any> putArray(key: String, array: Array<T>, separator: String = ",") {
         if (array.isEmpty()) return
 
-        var string = ""
-        array.forEachIndexed { i, value ->
-            if (i > 0) string += separator
-            string += value.toString()
+        val string = buildString {
+            array.forEachIndexed { i, value ->
+                if (i > 0) append(separator)
+                append(value.toString())
+            }
         }
 
         val cGeneric = array.elementAt(0).javaClass.simpleName
