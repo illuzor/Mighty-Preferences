@@ -2,19 +2,17 @@ package com.illuzor.mightypreferences
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.assertEquals
 
 @RunWith(AndroidJUnit4::class)
 class BasicTypesTests {
 
-    private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
+    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
 
     @Test
-    fun strings() {
+    fun strings_test() {
         val str1 = "Hello"
         val str2 = "Helloooo!!!"
         val str3 = "Hello my dear friend!"
@@ -29,7 +27,7 @@ class BasicTypesTests {
     }
 
     @Test
-    fun bytes() {
+    fun bytes_test() {
         val byte1: Byte = 7
         val byte2 = Byte.MAX_VALUE
         val byte3 = Byte.MIN_VALUE
@@ -44,7 +42,7 @@ class BasicTypesTests {
     }
 
     @Test
-    fun ints() {
+    fun ints_test() {
         val int1 = 224
         val int2 = Int.MAX_VALUE
         val int3 = Int.MIN_VALUE
@@ -59,7 +57,7 @@ class BasicTypesTests {
     }
 
     @Test
-    fun longs() {
+    fun longs_test() {
         val long1 = 333L
         val long2 = Long.MAX_VALUE
         val long3 = Long.MIN_VALUE
@@ -74,7 +72,7 @@ class BasicTypesTests {
     }
 
     @Test
-    fun floats() {
+    fun floats_test() {
         val float1 = 0.123f
         val float2 = Float.MAX_VALUE
         val float3 = Float.MIN_VALUE
@@ -89,7 +87,7 @@ class BasicTypesTests {
     }
 
     @Test
-    fun doubles() {
+    fun doubles_test() {
         val double1 = 0.123456789123
         val double2 = Double.MAX_VALUE
         val double3 = Double.MIN_VALUE

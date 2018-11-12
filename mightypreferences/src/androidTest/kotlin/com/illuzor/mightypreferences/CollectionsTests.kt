@@ -2,24 +2,22 @@ package com.illuzor.mightypreferences
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CollectionsTests {
 
-    private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
+    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
 
     @Test
-    fun types() {
+    fun types_test() {
         prefs.putCollection("list1", arrayListOf("hello", "my", "dear", "friend", "dfgdgdg"))
-
         val list1 = prefs.getCollection<String>("list1")
         assertEquals(list1.javaClass.simpleName, "ArrayList")
 
         prefs.putCollection("list2", listOf(1, 2, 3, Int.MAX_VALUE))
-
         val list2 = prefs.getCollection<Int>("list1")
         assertEquals(list2.javaClass.simpleName, "ArrayList")
 
@@ -30,43 +28,38 @@ class CollectionsTests {
         prefs.putCollection("set2", linkedSetOf(1, 2, 3, 4, 5, 6))
         val set2 = prefs.getCollection<Int>("set2")
         assertEquals(set2.javaClass.simpleName, "LinkedHashSet")
-
-        assertNotEquals(set1.javaClass.simpleName, set2.javaClass.simpleName)
-        assertNotEquals(list1.javaClass.simpleName, set2.javaClass.simpleName)
     }
 
     @Test
-    fun equality() {
-
+    fun equality_test() {
         val list1 = arrayListOf("hello", "my", "dear", "friend", "dfgdgdg")
         prefs.putCollection("list1", list1)
-
-        val list1p = prefs.getCollection<String>("list1")
-        assertEquals(list1, list1p)
+        assertEquals(list1, prefs.getCollection<String>("list1"))
 
         val list2 = listOf(1, 2, 4, 5, 6)
         prefs.putCollection("list2", list2)
-
-        val list2p = prefs.getCollection<Int>("list2")
-        assertEquals(list2, list2p)
+        assertEquals(list2, prefs.getCollection<Int>("list2"))
 
         val list3 = linkedSetOf(1f, 2.toFloat(), 4.4f, Float.MAX_VALUE, Float.MIN_VALUE)
         prefs.putCollection("list3", list3)
-
-        val list3p = prefs.getCollection<Float>("list3")
-        assertEquals(list3, list3p)
+        assertEquals(list3, prefs.getCollection<Float>("list3"))
     }
 
     @Test
-    fun separator() {
+    fun separator_test() {
         val list1 = arrayListOf("hello, friend", "let`go,")
         prefs.putCollection("list1", list1, "$$")
-        val list1p = prefs.getCollection<String>("list1", "$$")
-        assertEquals(list1, list1p)
+        assertEquals(list1, prefs.getCollection<String>("list1", "$$"))
 
         val list2 = listOf(12.2f, 0.0001f, Float.MAX_VALUE)
         prefs.putCollection("list2", list2, "%")
-        val list2p = prefs.getCollection<Float>("list2", "%")
-        assertEquals(list2, list2p)
+        assertEquals(list2, prefs.getCollection<Float>("list2", "%"))
+    }
+
+    @Test
+    fun empty_test() {
+        val emptyList = listOf<String>()
+        prefs.putCollection("empty1", emptyList)
+        assertEquals(emptyList, prefs.getCollection<String>("empty1"))
     }
 }

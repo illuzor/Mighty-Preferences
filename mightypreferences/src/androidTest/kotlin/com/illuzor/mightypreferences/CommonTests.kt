@@ -2,17 +2,19 @@ package com.illuzor.mightypreferences
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CommonTests {
 
-    private val prefs: Prefs by lazy { InstrumentationRegistry.getTargetContext().defaultPrefs }
+    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
 
     @Test
-    fun addRemoveClear() {
+    fun addRemoveClear_test() {
         prefs.putString("param1", "p1")
         assertTrue(prefs.contains("param1"))
 
@@ -23,7 +25,6 @@ class CommonTests {
         prefs.putString("param2", "p2")
         assertTrue(prefs.contains("param1"))
         assertTrue(prefs.contains("param2"))
-
         assertTrue(prefs.containsAll(arrayOf("param1", "param2")))
 
         prefs.clear()
@@ -33,7 +34,7 @@ class CommonTests {
     }
 
     @Test
-    fun bools() {
+    fun bools_test() {
         prefs.putBool("b1", true)
         prefs.putBool("b2", false)
         assertTrue(prefs.getBool("b1"))
@@ -41,7 +42,7 @@ class CommonTests {
     }
 
     @Test
-    fun defaults() {
+    fun defaults_test() {
         prefs.clear()
 
         val key = "noting"
@@ -56,7 +57,7 @@ class CommonTests {
     }
 
     @Test
-    fun listeners() {
+    fun listeners_test() {
         prefs.clear()
 
         prefs.onChange { key ->
@@ -78,5 +79,4 @@ class CommonTests {
         prefs.putString("s", "str")
         prefs.removeListener()
     }
-
 }
