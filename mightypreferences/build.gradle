@@ -74,7 +74,7 @@ install {
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
-    from android.sourceSets.main.java.sourceFiles
+    from 'src/main/java'
 }
 
 task classesJar(type: Jar) {
