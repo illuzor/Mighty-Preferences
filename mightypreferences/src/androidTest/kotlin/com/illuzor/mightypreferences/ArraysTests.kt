@@ -25,7 +25,8 @@ class ArraysTests {
         prefs.putArray("array3", array3)
         assertArrayEquals(array3, prefs.getArray<Float>("array3"))
 
-        val array4: Array<Long> = arrayOf(22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE)
+        val array4: Array<Long> = arrayOf(22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE,
+                Long.MIN_VALUE)
         prefs.putArray("array4", array4)
         assertArrayEquals(array4, prefs.getArray<Long>("array4"))
     }
@@ -42,7 +43,7 @@ class ArraysTests {
     }
 
     @Test
-    fun empty_test(){
+    fun empty_test() {
         val emptyArray = arrayOf<String>()
         prefs.putArray("empty1", emptyArray)
         assertArrayEquals(emptyArray, prefs.getArray<String>("empty1"))

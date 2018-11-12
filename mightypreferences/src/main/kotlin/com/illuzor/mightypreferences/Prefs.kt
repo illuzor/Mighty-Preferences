@@ -22,25 +22,29 @@ class Prefs(private val prefs: SharedPreferences) {
     private var changeListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
-    fun getString(key: String, default: String = DEFAULT_STRING): String = prefs.getString(key, default)!!
+    fun getString(key: String, default: String = DEFAULT_STRING) = prefs.getString(key, default)!!
 
     fun putFloat(key: String, value: Float) = prefs.edit().putFloat(key, value).apply()
-    fun getFloat(key: String, default: Float = DEFAULT_FLOAT): Float = prefs.getFloat(key, default)
+    fun getFloat(key: String, default: Float = DEFAULT_FLOAT) = prefs.getFloat(key, default)
 
-    fun putDouble(key: String, value: Double) = prefs.edit().putString(key, value.toString()).apply()
-    fun getDouble(key: String, default: Double = DEFAULT_DOUBLE): Double = prefs.getString(key, default.toString())!!.toDouble()
+    fun putDouble(key: String, value: Double) = prefs.edit()
+            .putString(key, value.toString())
+            .apply()
+    fun getDouble(key: String, default: Double = DEFAULT_DOUBLE) =
+            prefs.getString(key, default.toString())!!.toDouble()
 
     fun putLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
-    fun getLong(key: String, default: Long = DEFAULT_LONG): Long = prefs.getLong(key, default)
+    fun getLong(key: String, default: Long = DEFAULT_LONG) = prefs.getLong(key, default)
 
     fun putByte(key: String, value: Byte) = prefs.edit().putInt(key, value.toInt()).apply()
-    fun getByte(key: String, default: Byte = DEFAULT_BYTE): Byte = prefs.getInt(key, default.toInt()).toByte()
+    fun getByte(key: String, default: Byte = DEFAULT_BYTE) =
+            prefs.getInt(key, default.toInt()).toByte()
 
     fun putInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
-    fun getInt(key: String, default: Int = DEFAULT_INT): Int = prefs.getInt(key, default)
+    fun getInt(key: String, default: Int = DEFAULT_INT) = prefs.getInt(key, default)
 
     fun putBool(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
-    fun getBool(key: String, default: Boolean = DEFAULT_BOOL): Boolean = prefs.getBoolean(key, default)
+    fun getBool(key: String, default: Boolean = DEFAULT_BOOL) = prefs.getBoolean(key, default)
 
     fun <T : Any> putCollection(key: String, collection: Collection<T>, separator: String = ",") {
         if (collection.isEmpty()) return
@@ -53,7 +57,8 @@ class Prefs(private val prefs: SharedPreferences) {
         }
 
         var cClass = collection.javaClass.name
-        if (cClass.contains("Arrays$")) cClass = cClass.replace("Arrays$", "")
+        if (cClass.contains("Arrays$"))
+            cClass = cClass.replace("Arrays$", "")
         val cGeneric = collection.elementAt(0).javaClass.simpleName
 
         putString(key, string)
@@ -77,7 +82,12 @@ class Prefs(private val prefs: SharedPreferences) {
         return collectionInstance
     }
 
-    fun <K : Any, V : Any> putMap(key: String, map: Map<K, V>, separator1: String = ":", separator2: String = ",") {
+    fun <K : Any, V : Any> putMap(
+        key: String,
+        map: Map<K, V>,
+        separator1: String = ":",
+        separator2: String = ","
+    ) {
         if (map.isEmpty()) return
         val string = buildString {
             map.forEach { (key, value) ->
@@ -106,7 +116,8 @@ class Prefs(private val prefs: SharedPreferences) {
 
         pairsArray.forEach { string ->
             val pair = string.split(separator1)
-            mapInstance[typeFromString(pair[0], keyType) as K] = typeFromString(pair[1], valueType) as V
+            mapInstance[typeFromString(pair[0], keyType) as K] =
+                    typeFromString(pair[1], valueType) as V
         }
 
         return mapInstance

@@ -22,4 +22,4 @@ before_install:
   - yes | sdkmanager "build-tools;28.0.3"
 
 script:
-  - ./gradlew clean build connectedCheck
+  - ./gradlew clean build connectedCheck ktlintCheck
