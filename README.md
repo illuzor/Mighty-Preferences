@@ -1,6 +1,7 @@
 [ ![Download](https://api.bintray.com/packages/illuzor/maven/MightyPreferences/images/download.svg) ](https://bintray.com/illuzor/maven/MightyPreferences/_latestVersion)
 [![API](https://img.shields.io/badge/API-14%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14)
 [![Build Status](https://travis-ci.org/illuzor/Mighty-Preferences.svg?branch=master)](https://travis-ci.org/illuzor/Mighty-Preferences)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 # Mighty-Preferences
 
