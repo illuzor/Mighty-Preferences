@@ -50,12 +50,7 @@ class Prefs(private val prefs: SharedPreferences) {
     fun <T : Any> putCollection(key: String, collection: Collection<T>, separator: String = ",") {
         if (collection.isEmpty()) return
 
-        val string = buildString {
-            collection.forEachIndexed { i, value ->
-                if (i > 0) append(separator)
-                append(value.toString())
-            }
-        }
+        val string = collection.joinToString(separator) { it.toString() }
 
         var cClass = collection.javaClass.name
         if (cClass.contains("Arrays$"))
@@ -90,10 +85,9 @@ class Prefs(private val prefs: SharedPreferences) {
         separator2: String = ","
     ) {
         if (map.isEmpty()) return
-        val string = buildString {
-            map.forEach { (key, value) ->
-                append("$key$separator1$value$separator2")
-            }
+
+        val string = map.asSequence().joinToString("") { (key, value) ->
+            "$key$separator1$value$separator2"
         }
 
         val keyClass = map.keys.iterator().next().javaClass.simpleName
@@ -127,13 +121,7 @@ class Prefs(private val prefs: SharedPreferences) {
     fun <T : Any> putArray(key: String, array: Array<T>, separator: String = ",") {
         if (array.isEmpty()) return
 
-        val string = buildString {
-            array.forEachIndexed { i, value ->
-                if (i > 0) append(separator)
-                append(value.toString())
-            }
-        }
-
+        val string = array.joinToString(separator) { it.toString() }
         val cGeneric = array.elementAt(0).javaClass.simpleName
 
         putString(key, string)
