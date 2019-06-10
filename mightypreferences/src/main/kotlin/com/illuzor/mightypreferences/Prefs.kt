@@ -28,17 +28,18 @@ class Prefs(private val prefs: SharedPreferences) {
     fun getFloat(key: String, default: Float = DEFAULT_FLOAT) = prefs.getFloat(key, default)
 
     fun putDouble(key: String, value: Double) = prefs.edit()
-            .putString(key, value.toString())
-            .apply()
+        .putString(key, value.toString())
+        .apply()
+
     fun getDouble(key: String, default: Double = DEFAULT_DOUBLE) =
-            prefs.getString(key, default.toString())!!.toDouble()
+        prefs.getString(key, default.toString())!!.toDouble()
 
     fun putLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
     fun getLong(key: String, default: Long = DEFAULT_LONG) = prefs.getLong(key, default)
 
     fun putByte(key: String, value: Byte) = prefs.edit().putInt(key, value.toInt()).apply()
     fun getByte(key: String, default: Byte = DEFAULT_BYTE) =
-            prefs.getInt(key, default.toInt()).toByte()
+        prefs.getInt(key, default.toInt()).toByte()
 
     fun putInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
     fun getInt(key: String, default: Int = DEFAULT_INT) = prefs.getInt(key, default)
@@ -117,7 +118,7 @@ class Prefs(private val prefs: SharedPreferences) {
         pairsArray.forEach { string ->
             val pair = string.split(separator1)
             mapInstance[typeFromString(pair[0], keyType) as K] =
-                    typeFromString(pair[1], valueType) as V
+                typeFromString(pair[1], valueType) as V
         }
 
         return mapInstance
@@ -154,15 +155,15 @@ class Prefs(private val prefs: SharedPreferences) {
     }
 
     private fun typeFromString(str: String, type: String): Any =
-            when (type) {
-                "Boolean" -> str.toBoolean()
-                "Byte" -> str.toByte()
-                "Integer" -> str.toInt()
-                "Long" -> str.toLong()
-                "Float" -> str.toFloat()
-                "Double" -> str.toDouble()
-                else -> str
-            }
+        when (type) {
+            "Boolean" -> str.toBoolean()
+            "Byte" -> str.toByte()
+            "Integer" -> str.toInt()
+            "Long" -> str.toLong()
+            "Float" -> str.toFloat()
+            "Double" -> str.toDouble()
+            else -> str
+        }
 
     fun contains(key: String) = prefs.contains(key)
     fun containsAll(keys: Array<String>) = keys.all { contains(it) }

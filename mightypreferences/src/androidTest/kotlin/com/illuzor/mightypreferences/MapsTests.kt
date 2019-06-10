@@ -22,30 +22,40 @@ class MapsTests {
 
         val hashMap: HashMap<String, String> = hashMapOf(pair)
         prefs.putMap("map1", hashMap)
-        assertEquals(prefs.getMap<String, String>("map1").javaClass.name,
-                "java.util.HashMap")
+        assertEquals(
+            prefs.getMap<String, String>("map1").javaClass.name,
+            "java.util.HashMap"
+        )
 
         val linkedHashMap: LinkedHashMap<String, String> = linkedMapOf(pair)
         prefs.putMap("map2", linkedHashMap)
-        assertEquals(prefs.getMap<String, String>("map2").javaClass.name,
-                "java.util.LinkedHashMap")
+        assertEquals(
+            prefs.getMap<String, String>("map2").javaClass.name,
+            "java.util.LinkedHashMap"
+        )
 
         val treeMap: TreeMap<String, String> = TreeMap(linkedHashMap)
         prefs.putMap("map3", treeMap)
-        assertEquals(prefs.getMap<String, String>("map3").javaClass.name,
-                "java.util.TreeMap")
+        assertEquals(
+            prefs.getMap<String, String>("map3").javaClass.name,
+            "java.util.TreeMap"
+        )
 
         val customMap1: TestCustomMap<String, String> = TestCustomMap()
         customMap1.put("str1", "str2")
         prefs.putMap("map4", customMap1)
-        assertEquals(prefs.getMap<String, String>("map4").javaClass.simpleName,
-                "TestCustomMap")
+        assertEquals(
+            prefs.getMap<String, String>("map4").javaClass.simpleName,
+            "TestCustomMap"
+        )
 
         val customMap2: TestCustomMap<String, Int> = TestCustomMap()
         customMap2.put("str1", 1)
         prefs.putMap("map5", customMap2)
-        assertEquals(prefs.getMap<String, String>("map5").javaClass.simpleName,
-                "TestCustomMap")
+        assertEquals(
+            prefs.getMap<String, String>("map5").javaClass.simpleName,
+            "TestCustomMap"
+        )
     }
 
     @Test
@@ -61,17 +71,19 @@ class MapsTests {
         assertEquals(map2, map2p)
 
         val map3 = linkedMapOf(
-                Pair(1, Double.MAX_VALUE),
-                Pair(7, Double.MIN_VALUE),
-                Pair(12, 12.toDouble()))
+            Pair(1, Double.MAX_VALUE),
+            Pair(7, Double.MIN_VALUE),
+            Pair(12, 12.toDouble())
+        )
         prefs.putMap("map3", map3)
         val map3p = prefs.getMap<Int, Double>("map3")
         assertEquals(map3, map3p)
 
         val map4 = mapOf(
-                Pair(1.22f, 67778L),
-                Pair(7.toFloat(), Long.MAX_VALUE),
-                Pair(12f, Long.MIN_VALUE))
+            Pair(1.22f, 67778L),
+            Pair(7.toFloat(), Long.MAX_VALUE),
+            Pair(12f, Long.MIN_VALUE)
+        )
         prefs.putMap("map4", map4)
         val map4p = prefs.getMap<Float, Long>("map4")
         assertEquals(map4, map4p)
@@ -84,8 +96,10 @@ class MapsTests {
         val map1p = prefs.getMap<String, String>("map1", separator2 = "#")
         assertEquals(map1, map1p)
 
-        val map2 = linkedMapOf(Pair(12.2f, "hello, fiends!"),
-                Pair(44.1f, "hello: friend1, friend2, friend3"))
+        val map2 = linkedMapOf(
+            Pair(12.2f, "hello, fiends!"),
+            Pair(44.1f, "hello: friend1, friend2, friend3")
+        )
         prefs.putMap("map2", map2, separator1 = "##", separator2 = "%%")
         val map2p = prefs.getMap<Float, String>("map2", "##", "%%")
 
