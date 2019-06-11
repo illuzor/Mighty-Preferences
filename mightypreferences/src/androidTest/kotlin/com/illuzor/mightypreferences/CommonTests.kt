@@ -52,28 +52,4 @@ class CommonTests {
         assertEquals(prefs.getFloat(key), Prefs.DEFAULT_FLOAT)
         assertEquals(prefs.getDouble(key), Prefs.DEFAULT_DOUBLE, 0.0)
     }
-
-    @Test
-    fun listeners_test() {
-        prefs.clear()
-
-        prefs.onChange { key ->
-            assertEquals("i", key)
-        }
-        prefs.putInt("i", 1)
-        prefs.removeListener()
-
-        prefs.onChange { key ->
-            assertEquals("map", key)
-        }
-        prefs.putMap("map", mapOf(Pair(1, 2)))
-        prefs.removeListener()
-
-        prefs.onChange { p, key ->
-            assertEquals(p, prefs)
-            assertEquals(key, "s")
-        }
-        prefs.putString("s", "str")
-        prefs.removeListener()
-    }
 }

@@ -17,7 +17,13 @@ class Prefs(private val prefs: SharedPreferences) {
         private val A_POSTFIX = "_arrayClasses"
     }
 
-    private var changeListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
+    private val listeners = mutableListOf<(SharedPreferences, String) -> Unit>()
+
+    private val changeListener by lazy {
+        SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
+            listeners.forEach { it(prefs, key) }
+        }
+    }
 
     fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
     fun getString(key: String, default: String = DEFAULT_STRING) = prefs.getString(key, default)!!
@@ -120,28 +126,22 @@ class Prefs(private val prefs: SharedPreferences) {
         editor.apply()
     }
 
-    fun onChange(listener: (String) -> Unit) {
-        removeListener()
-        changeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (!key.contains(M_POSTFIX) && !key.contains(A_POSTFIX))
-                listener(key)
+    fun addListener(listener: (SharedPreferences, String) -> Unit) {
+        if (listeners.isEmpty()) {
+            prefs.registerOnSharedPreferenceChangeListener(changeListener)
         }
-        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        listeners.add(listener)
     }
 
-    fun onChange(listener: (Prefs, String) -> Unit) {
-        removeListener()
-        changeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (!key.contains(M_POSTFIX) && !key.contains(A_POSTFIX))
-                listener(this, key)
-        }
-        prefs.registerOnSharedPreferenceChangeListener(changeListener)
-    }
-
-    fun removeListener() {
-        if (changeListener != null) {
+    fun removeListener(listener: (SharedPreferences, String) -> Unit) {
+        listeners.remove(listener)
+        if (listeners.isEmpty()) {
             prefs.unregisterOnSharedPreferenceChangeListener(changeListener)
-            changeListener = null
         }
+    }
+
+    fun clearListeners() {
+        prefs.unregisterOnSharedPreferenceChangeListener(changeListener)
+        listeners.clear()
     }
 }
