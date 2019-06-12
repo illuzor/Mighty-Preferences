@@ -16,7 +16,7 @@ repositories {
     jcenter()
 }
 
-implementation 'com.illuzor.mightypreferences:mightypreferences:0.0.9:@aar'
+implementation 'com.illuzor.mightypreferences:mightypreferences:0.0.10:@aar'
 ```
 #### Initialization
 
@@ -25,8 +25,11 @@ implementation 'com.illuzor.mightypreferences:mightypreferences:0.0.9:@aar'
 val prefs = defaultPrefs // for context
 // or your SharedPreferences
 val prefs = Prefs(getPreferences(Context.MODE_PRIVATE))
-//...
+// or
 val prefs = Prefs(PreferenceManager.getDefaultSharedPreferences(this))
+// or
+val prefs = Prefs(MyCustomSuperMegaSharedPreferences())
+
 ```
 
 #### Basic types
@@ -49,6 +52,12 @@ prefs.putByte("byte1", 0x00)
 val myByte1 = prefs.getByte("byte1")
 // or
 val myByte2 = prefs.getByte("byte1", default = 0x01)
+
+// shorts
+prefs.putShort("short1", 0)
+val myShort1 = prefs.getShort("short1")
+// or
+val myShort2 = prefs.getShort("short1", default = 12)
 
 // ints
 prefs.putInt("int1", 42)
@@ -75,48 +84,65 @@ val myDouble1 = prefs.getDouble("double1")
 val myDouble2 = prefs.getDouble("double1", default = 12.1222222222)
 ```
 
-#### Collections and maps
+#### Arrays, collections and maps
 
-Lists and Sets:
+Supported arrays, lists, sets, maps only with basic types
+
+Arrays:
 
 ```kotlin
-prefs.putCollection("myList1", arrayListOf("string1", "string2", "string3"))
-val myList = prefs.getCollection<String>("myList1")
+prefs.putArray("myArray1", arrayOf("string1", "string2", "string3"))
+val myArray = prefs.getArray<String>("myArray1")
 
-prefs.putCollection("mySet1", hashSetOf(1,2,3))
-val mySet = prefs.getCollection<Int>("mySet1")
+// Important: generic type in getArray<T>() must be the same as in puted array
+```
 
-// Important: generic type in getCollection<T>() must be the same as in puted collection
+Lists:
+
+```kotlin
+prefs.putList("myList1", listOf("string1", "string2", "string3"))
+val myList = prefs.getList<String>("myList1")
+
+// Important: generic type in getList<T>() must be the same as in puted list
+```
+
+Sets:
+
+```kotlin
+prefs.putSet("mySet1", setOf(1,2,3))
+val mySet = prefs.getSet<Int>("mySet1")
+
+// Important: generic type in getSet<T>() must be the same as in puted set
 ```
 
 Maps:
 
 ```kotlin
-prefs.putMap("myMap1", hashMapOf(Pair("one", 1), Pair("two", 2), Pair("three", 3)))
+prefs.putMap("myMap1", mapOf("one" to 1, "two" to 2, "three" to 3))
 val myMap = prefs.getMap<String, Int>("myMap1")
 
 // Important: generic types in getMap<K, V>() must be the same as in puted map
 ```
 
-**Separators for maps and collections.**
+**Separators for arrays, collections and maps**
 
-putCollection() and getCollection() methods contains default argument **separator** equals to ","
+putArray()/getArray(), putList()/getList() and putSet()/getSet() methods contains default argument **separator** equals to ","
 ```kotlin
-fun <T : Any> putCollection(key: String, list: Collection<T>, separator: String = ",")
-fun <T : Any> getCollection(key: String, separator: String = ","): Collection<T>
+fun <T> putArray(key: String, array: Array<T>, separator: String = ",")
+fun <T> getArray(key: String, separator: String = ","): Array<T>
 ```
 If strings in your collection contains **","** symbol, you need to replace separator to your, which not present in your strings.
 
 For example:
 
 ```kotlin
-prefs.putCollection("myList1", arrayListOf("one, two", "three, four, five"), separator = "##")
-val myList = prefs.getCollection<String>("myList1", separator = "##")
+prefs.putArray("myArray1", arrayOf("one, two", "three, four, five"), separator = "##")
+val myArray = prefs.getArray<String>("myArray1", separator = "##")
 ```
 The same with maps, but putMap() and getMap() methods contains two separators:
 
 ```kotlin
-fun <K : Any, V : Any> putMap(key: String, map: Map<K, V>, separator1: String = ":", separator2: String = ",") 
+fun <K, V> putMap(key: String, map: Map<K, V>, separator1: String = ":", separator2: String = ",") 
 fun <K, V> getMap(key: String, separator1: String = ":", separator2: String = ","): Map<K, V>
 ```
 If strings in your maps contains ":" or/and ",", you need to replace separators to yours, which not present in your strings.
@@ -128,18 +154,45 @@ prefs.putMap("myMap1", hashMapOf(Pair("one", "one, two, three:good"), Pair("two"
 val myMap = prefs.getMap<String, String>("myMap1", separator1 = "##", separator2 = "%%")
 ```
 
+#### Multiple put DSL
+```kotlin
+prefs.put {
+    bool("myBool1", true)
+    bool("myBool2", false)
+    byte("myByte", 0x6)
+    short("myShort", 22)
+    int("myInt", 222)
+    long("myLong", 2233L)
+    float("myFloat", 1.2f)
+    double("myDouble", 1.2222)
+    string("myString", "hello")
+    map("myMap", mapOf(1 to 2, 2 to 3, 3 to 4))
+    array("myArray", arrayOf(1, 2, 3, 4, 5))
+    list("myList", listOf(1, 2, 3, 4, 5))
+    set("mySet", setOf(1, 2, 3, 4, 5))
+}
+```
+```kotlin
+prefs.put {
+    repeat(100) { count: Int ->
+        int(count.toString(), count)
+    }
+}
+```
+
 #### Default values
 
 You can change default values:
 
 ```kotlin
 Prefs.DEFAULT_BOOL = false
-Prefs.DEFAULT_STRING = "my default string"
-Prefs.DEFAULT_INT = 222
 Prefs.DEFAULT_BYTE = 0x01
+Prefs.DEFAULT_SHORT = 42
+Prefs.DEFAULT_INT = 222
 Prefs.DEFAULT_LONG = 188L
 Prefs.DEFAULT_FLOAT = 12.2f
 Prefs.DEFAULT_DOUBLE = 123.14
+Prefs.DEFAULT_STRING = "my default string"
 ```
 
 #### contains, notContains, remove, clear
@@ -147,22 +200,35 @@ Prefs.DEFAULT_DOUBLE = 123.14
 ```kotlin
 prefs.contains("key") // returns true if entry exist
 prefs.containsAll(arrayOf("param1", "param2", "param3") // returns true if all entries exist
-prefs.notContains("key") // returns true if entry not exist
+prefs.notContains("key") // returns true if entry does not exist
 prefs.remove("key") // removes entry
 prefs.clear() // removes all entries
 ```
 
 #### Listener
 
-```kotlin
-prefs.onChange { key -> }
-//or
-prefs.onChange { prefs, key -> }
+Add listener
 
-// simple listener removing
-prefs.removeListener()
+```kotlin
+prefs.addListener { prefs:SharedPreferences, key:String ->
+   // ..
+}
+```
+Remove listener
+
+```kotlin
+val listener = { prefs:SharedPreferences, key:String ->
+    // ..
+}
+
+prefs.addListener(listener)
+prefs.removeListener(listener)
+```
+Remove all listeners
+```kotlin
+prefs.clearListeners()
 ```
 
 #### Caution
 
-Migthy Preferences provides simple way to store maps and collections, but it based on SharedPreferences. Do not use it for store huge maps and collections - it may be slow. For big massives of data database or orm will be much better.
+Migthy Preferences provides simple way to store maps and collections, but it based on SharedPreferences. Do not use it for store huge maps and collections - it may be slow. For big massives of data use database.
