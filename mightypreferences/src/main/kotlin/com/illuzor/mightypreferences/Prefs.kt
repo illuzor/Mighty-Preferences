@@ -40,6 +40,32 @@ class Prefs(private val prefs: SharedPreferences) {
             editor.putString(key, value)
         }
 
+        fun <K : Any, V : Any> map(
+            key: String,
+            map: Map<K, V>,
+            separator1: String = ":",
+            separator2: String = ","
+        ) {
+            if (map.isEmpty()) return
+            val keyClass = map.keys.iterator().next().javaClass.simpleName
+            val valueClass = map.values.iterator().next().javaClass.simpleName
+            editor.putString(key, mapToString(map, separator1, separator2))
+            editor.putString(key + M_POSTFIX, "$keyClass:$valueClass")
+        }
+
+        fun <T : Any> array(key: String, array: Array<T>, separator: String = ",") {
+            if (array.isEmpty()) return
+            val type = array.elementAt(0).javaClass.simpleName
+            editor.putString(key, arrayToString(array, separator))
+            editor.putString(key + A_POSTFIX, type)
+        }
+
+        inline fun <reified T : Any> list(key: String, list: List<T>, separator: String = ",") =
+            array(key, list.toTypedArray(), separator)
+
+        inline fun <reified T : Any> set(key: String, set: Set<T>, separator: String = ",") =
+            array(key, set.toTypedArray(), separator)
+
         internal fun save() = editor.apply()
     }
 

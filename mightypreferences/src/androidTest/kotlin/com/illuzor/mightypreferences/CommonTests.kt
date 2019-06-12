@@ -1,6 +1,7 @@
 package com.illuzor.mightypreferences
 
 import android.support.test.InstrumentationRegistry
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -61,6 +62,12 @@ class CommonTests {
     @Test
     fun put_multiple() {
         prefs.clear()
+
+        val map = mapOf(1 to 2, 2 to 3, 3 to 4)
+        val array = arrayOf(1, 2, 3, 4, 5)
+        val list = listOf(1, 2, 3, 4, 5)
+        val set = setOf(1, 2, 3, 4, 5)
+
         prefs.put {
             bool("k1", true)
             bool("k2", false)
@@ -71,8 +78,15 @@ class CommonTests {
             float("k7", 1.2f)
             double("k8", 1.2222)
             string("k9", "hello")
+            map("k10", map)
+            array("k11", array)
+            list("k12", list)
+            set("k13", set)
         }
-        assertTrue(prefs.containsAll(listOf("k1", "k2", "k3", "k4", "k5", "k6", "k7", "k8", "k9")))
+
+        val keys =
+            setOf("k1", "k2", "k3", "k4", "k5", "k6", "k7", "k8", "k9", "k10", "k11", "k12", "k13")
+        assertTrue(prefs.containsAll(keys))
         assertTrue(prefs.getBool("k1"))
         assertFalse(prefs.getBool("k2"))
         assertEquals(0x6.toByte(), prefs.getByte("k3"))
@@ -81,5 +95,10 @@ class CommonTests {
         assertEquals(2233L, prefs.getLong("k6"))
         assertEquals(1.2f, prefs.getFloat("k7"))
         assertEquals(1.2222, prefs.getDouble("k8"), 0.0001)
+        assertEquals("hello", prefs.getString("k9"))
+        assertEquals(map, prefs.getMap<Int, Int>("k10"))
+        assertArrayEquals(array, prefs.getArray<Int>("k11"))
+        assertEquals(list, prefs.getList<Int>("k12"))
+        assertEquals(set, prefs.getSet<Int>("k13"))
     }
 }
