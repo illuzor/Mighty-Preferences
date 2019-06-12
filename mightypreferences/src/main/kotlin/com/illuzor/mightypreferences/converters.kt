@@ -43,6 +43,7 @@ private fun typeFromString(str: String, type: String): Any =
     when (type) {
         "Boolean" -> str.toBoolean()
         "Byte" -> str.toByte()
+        "Short" -> str.toShort()
         "Integer" -> str.toInt()
         "Long" -> str.toLong()
         "Float" -> str.toFloat()

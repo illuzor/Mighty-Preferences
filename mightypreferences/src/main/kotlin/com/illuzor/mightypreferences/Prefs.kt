@@ -6,13 +6,15 @@ import android.content.SharedPreferences
 class Prefs(private val prefs: SharedPreferences) {
 
     companion object {
-        var DEFAULT_STRING = "undefined"
         var DEFAULT_BOOL = false
-        var DEFAULT_INT = 0
-        var DEFAULT_FLOAT = 0f
-        var DEFAULT_DOUBLE = 0.0
-        var DEFAULT_LONG = 0L
         var DEFAULT_BYTE: Byte = 0x00
+        var DEFAULT_SHORT: Short = 0
+        var DEFAULT_INT: Int = 0
+        var DEFAULT_LONG: Long = 0L
+        var DEFAULT_FLOAT: Float = 0.0f
+        var DEFAULT_DOUBLE: Double = 0.0
+        var DEFAULT_STRING = "undefined"
+
         private val M_POSTFIX = "_mapClasses"
         private val A_POSTFIX = "_arrayClasses"
     }
@@ -25,8 +27,22 @@ class Prefs(private val prefs: SharedPreferences) {
         }
     }
 
-    fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
-    fun getString(key: String, default: String = DEFAULT_STRING) = prefs.getString(key, default)!!
+    fun putBool(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
+    fun getBool(key: String, default: Boolean = DEFAULT_BOOL) = prefs.getBoolean(key, default)
+
+    fun putByte(key: String, value: Byte) = prefs.edit().putInt(key, value.toInt()).apply()
+    fun getByte(key: String, default: Byte = DEFAULT_BYTE) =
+        prefs.getInt(key, default.toInt()).toByte()
+
+    fun putShort(key: String, value: Short) = prefs.edit().putInt(key, value.toInt()).apply()
+    fun getShort(key: String, default: Short = DEFAULT_SHORT) =
+        prefs.getInt(key, default.toInt()).toShort()
+
+    fun putInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
+    fun getInt(key: String, default: Int = DEFAULT_INT) = prefs.getInt(key, default)
+
+    fun putLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
+    fun getLong(key: String, default: Long = DEFAULT_LONG) = prefs.getLong(key, default)
 
     fun putFloat(key: String, value: Float) = prefs.edit().putFloat(key, value).apply()
     fun getFloat(key: String, default: Float = DEFAULT_FLOAT) = prefs.getFloat(key, default)
@@ -34,22 +50,11 @@ class Prefs(private val prefs: SharedPreferences) {
     fun putDouble(key: String, value: Double) = prefs.edit()
         .putString(key, value.toString())
         .apply()
-
     fun getDouble(key: String, default: Double = DEFAULT_DOUBLE) =
         prefs.getString(key, default.toString())!!.toDouble()
 
-    fun putLong(key: String, value: Long) = prefs.edit().putLong(key, value).apply()
-    fun getLong(key: String, default: Long = DEFAULT_LONG) = prefs.getLong(key, default)
-
-    fun putByte(key: String, value: Byte) = prefs.edit().putInt(key, value.toInt()).apply()
-    fun getByte(key: String, default: Byte = DEFAULT_BYTE) =
-        prefs.getInt(key, default.toInt()).toByte()
-
-    fun putInt(key: String, value: Int) = prefs.edit().putInt(key, value).apply()
-    fun getInt(key: String, default: Int = DEFAULT_INT) = prefs.getInt(key, default)
-
-    fun putBool(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
-    fun getBool(key: String, default: Boolean = DEFAULT_BOOL) = prefs.getBoolean(key, default)
+    fun putString(key: String, value: String) = prefs.edit().putString(key, value).apply()
+    fun getString(key: String, default: String = DEFAULT_STRING) = prefs.getString(key, default)!!
 
     fun <K : Any, V : Any> putMap(
         key: String,

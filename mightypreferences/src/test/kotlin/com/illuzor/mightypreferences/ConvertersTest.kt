@@ -21,6 +21,13 @@ class ConvertersTest {
     }
 
     @Test
+    fun array_to_string_short() {
+        val array = arrayOf(1, 2, 3, Short.MAX_VALUE, Short.MIN_VALUE)
+        val string = "1,2,3,${Short.MAX_VALUE},${Short.MIN_VALUE}"
+        assertEquals(string, arrayToString(array))
+    }
+
+    @Test
     fun array_to_string_int() {
         val array = arrayOf(1, 2, 3, Int.MAX_VALUE, Int.MIN_VALUE)
         val string = "1,2,3,${Int.MAX_VALUE},${Int.MIN_VALUE}"
@@ -93,6 +100,13 @@ class ConvertersTest {
         val array = arrayOf(0x1, 0x2, 0x3, Byte.MAX_VALUE, Byte.MIN_VALUE)
         val string = "1,2,3,${Byte.MAX_VALUE},${Byte.MIN_VALUE}"
         assertArrayEquals(array, stringToArray(string, "Byte"))
+    }
+
+    @Test
+    fun string_to_array_short() {
+        val array = arrayOf(1, 2, 3, Short.MAX_VALUE, Short.MIN_VALUE)
+        val string = "1,2,3,${Short.MAX_VALUE},${Short.MIN_VALUE}"
+        assertArrayEquals(array, stringToArray(string, "Short"))
     }
 
     @Test
@@ -173,6 +187,19 @@ class ConvertersTest {
             "k5" to Byte.MIN_VALUE
         )
         val string = "k1:1,k2:2,k3:3,k4:${Byte.MAX_VALUE},k5:${Byte.MIN_VALUE}"
+        assertEquals(string, mapToString(map))
+    }
+
+    @Test
+    fun map_to_string_short() {
+        val map = mapOf(
+            "k1" to 1,
+            "k2" to 2,
+            "k3" to 3,
+            "k4" to Short.MAX_VALUE,
+            "k5" to Short.MIN_VALUE
+        )
+        val string = "k1:1,k2:2,k3:3,k4:${Short.MAX_VALUE},k5:${Short.MIN_VALUE}"
         assertEquals(string, mapToString(map))
     }
 
@@ -276,6 +303,19 @@ class ConvertersTest {
         )
         val string = "k1:1,k2:2,k3:3,k4:${Byte.MAX_VALUE},k5:${Byte.MIN_VALUE}"
         assertEquals(map, stringToMap<String, Byte>(string, "String", "Byte"))
+    }
+
+    @Test
+    fun string_to_map_short() {
+        val map = mapOf<String, Short>(
+            "k1" to 1,
+            "k2" to 2,
+            "k3" to 3,
+            "k4" to Short.MAX_VALUE,
+            "k5" to Short.MIN_VALUE
+        )
+        val string = "k1:1,k2:2,k3:3,k4:${Short.MAX_VALUE},k5:${Short.MIN_VALUE}"
+        assertEquals(map, stringToMap<String, Short>(string, "String", "Short"))
     }
 
     @Test
