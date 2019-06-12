@@ -90,10 +90,10 @@ class Prefs(private val prefs: SharedPreferences) {
 
     fun <T : Any> putArray(key: String, array: Array<T>, separator: String = ",") {
         if (array.isEmpty()) return
-        val cGeneric = array.elementAt(0).javaClass.simpleName
+        val type = array.elementAt(0).javaClass.simpleName
         prefs.edit().apply {
             putString(key, arrayToString(array, separator))
-            putString(key + A_POSTFIX, cGeneric)
+            putString(key + A_POSTFIX, type)
         }.apply()
     }
 
@@ -118,7 +118,7 @@ class Prefs(private val prefs: SharedPreferences) {
         getArray<T>(key, separator).toSet()
 
     fun contains(key: String) = prefs.contains(key)
-    fun containsAll(keys: Array<String>) = keys.all { contains(it) }
+    fun containsAll(keys: Iterable<String>) = keys.all { contains(it) }
     fun notContains(key: String) = !prefs.contains(key)
     fun clear() = prefs.edit().clear().apply()
     fun remove(key: String) {
