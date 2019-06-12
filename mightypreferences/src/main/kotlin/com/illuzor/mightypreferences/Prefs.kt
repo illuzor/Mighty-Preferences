@@ -5,6 +5,44 @@ import android.content.SharedPreferences
 @Suppress("NOTHING_TO_INLINE")
 class Prefs(private val prefs: SharedPreferences) {
 
+    class PutHelper internal constructor(prefs: SharedPreferences) {
+        private val editor = prefs.edit()
+
+        fun bool(key: String, value: Boolean) {
+            editor.putBoolean(key, value)
+        }
+
+        fun byte(key: String, value: Byte) {
+            editor.putInt(key, value.toInt())
+        }
+
+        fun short(key: String, value: Short) {
+            editor.putInt(key, value.toInt())
+        }
+
+        fun int(key: String, value: Int) {
+            editor.putInt(key, value)
+        }
+
+        fun long(key: String, value: Long) {
+            editor.putLong(key, value)
+        }
+
+        fun float(key: String, value: Float) {
+            editor.putFloat(key, value)
+        }
+
+        fun double(key: String, value: Double) {
+            editor.putString(key, value.toString())
+        }
+
+        fun string(key: String, value: String) {
+            editor.putString(key, value)
+        }
+
+        internal fun save() = editor.apply()
+    }
+
     companion object {
         var DEFAULT_BOOL = false
         var DEFAULT_BYTE: Byte = 0x00
@@ -26,6 +64,8 @@ class Prefs(private val prefs: SharedPreferences) {
             listeners.forEach { it(prefs, key) }
         }
     }
+
+    fun put(actions: PutHelper.() -> Unit) = PutHelper(prefs).apply(actions).save()
 
     fun putBool(key: String, value: Boolean) = prefs.edit().putBoolean(key, value).apply()
     fun getBool(key: String, default: Boolean = DEFAULT_BOOL) = prefs.getBoolean(key, default)
@@ -50,6 +90,7 @@ class Prefs(private val prefs: SharedPreferences) {
     fun putDouble(key: String, value: Double) = prefs.edit()
         .putString(key, value.toString())
         .apply()
+
     fun getDouble(key: String, default: Double = DEFAULT_DOUBLE) =
         prefs.getString(key, default.toString())!!.toDouble()
 
