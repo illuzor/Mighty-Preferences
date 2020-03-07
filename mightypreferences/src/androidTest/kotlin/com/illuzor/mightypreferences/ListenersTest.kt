@@ -1,7 +1,7 @@
 package com.illuzor.mightypreferences
 
 import android.content.SharedPreferences
-import android.support.test.InstrumentationRegistry
+import androidx.test.InstrumentationRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
