@@ -23,9 +23,8 @@ class ArraysAndCollectionsTests {
         prefs.putArray("array3", array3)
         Assert.assertArrayEquals(array3, prefs.getArray<Float>("array3"))
 
-        val array4: Array<Long> = arrayOf(
-            22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE
-        )
+        val array4: Array<Long> =
+            arrayOf(22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE)
         prefs.putArray("array4", array4)
         Assert.assertArrayEquals(array4, prefs.getArray<Long>("array4"))
     }
@@ -62,9 +61,7 @@ class ArraysAndCollectionsTests {
         prefs.putList("array3", list3)
         assertEquals(list3, prefs.getList<Float>("array3"))
 
-        val list4: List<Long> = listOf(
-            22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE
-        )
+        val list4: List<Long> = listOf(22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE)
         prefs.putList("array4", list4)
         assertEquals(list4, prefs.getList<Long>("array4"))
     }
@@ -101,9 +98,7 @@ class ArraysAndCollectionsTests {
         prefs.putSet("array3", set3)
         assertEquals(set3, prefs.getSet<Float>("array3"))
 
-        val set4: Set<Long> = setOf(
-            22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE
-        )
+        val set4: Set<Long> = setOf(22L, 33L, 45L, 882L, 92422L, Long.MAX_VALUE, Long.MIN_VALUE)
         prefs.putSet("array4", set4)
         assertEquals(set4, prefs.getSet<Long>("array4"))
     }
