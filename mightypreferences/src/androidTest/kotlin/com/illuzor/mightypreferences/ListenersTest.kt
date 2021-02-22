@@ -1,15 +1,14 @@
 package com.illuzor.mightypreferences
 
+import android.content.Context
 import android.content.SharedPreferences
-import androidx.test.InstrumentationRegistry
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import androidx.test.core.app.ApplicationProvider
+import org.junit.Assert.*
 import org.junit.Test
 
 class ListenersTest {
 
-    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
+    private val prefs = ApplicationProvider.getApplicationContext<Context>().defaultPrefs
 
     @Test
     fun add_listener() {

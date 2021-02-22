@@ -1,13 +1,14 @@
 package com.illuzor.mightypreferences
 
-import androidx.test.InstrumentationRegistry
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ArraysAndCollectionsTests {
 
-    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
+    private val prefs = ApplicationProvider.getApplicationContext<Context>().defaultPrefs
 
     @Test
     fun arrays_equality() {

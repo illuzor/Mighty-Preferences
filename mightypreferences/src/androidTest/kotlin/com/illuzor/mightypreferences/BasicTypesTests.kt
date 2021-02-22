@@ -1,14 +1,13 @@
 package com.illuzor.mightypreferences
 
-import androidx.test.InstrumentationRegistry
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import org.junit.Assert.*
 import org.junit.Test
 
 class BasicTypesTests {
 
-    private val prefs = InstrumentationRegistry.getTargetContext().defaultPrefs
+    private val prefs = ApplicationProvider.getApplicationContext<Context>().defaultPrefs
 
     @Test
     fun booleans() {
