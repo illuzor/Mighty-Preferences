@@ -14,7 +14,7 @@ ext {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
@@ -37,15 +37,15 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.preference:preference:1.1.1"
+    implementation "androidx.preference:preference-ktx:1.1.1"
 }
 
 ktlint {
-    version = '0.38.1'
+    version = '0.40.0'
     android = true
 }
 
