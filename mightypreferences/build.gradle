@@ -1,16 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 version = '0.0.11'
 group = 'com.illuzor.mightypreferences'
-
-ext {
-    siteUrl = 'https://github.com/illuzor/Mighty-Preferences'
-    gitUrl = 'https://github.com/illuzor/Mighty-Preferences.git'
-}
 
 android {
     compileSdkVersion 30
@@ -38,7 +31,7 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.preference:preference-ktx:1.1.1"
@@ -47,65 +40,4 @@ dependencies {
 ktlint {
     version = '0.40.0'
     android = true
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'MightyPreferences'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'MIT'
-                        url 'https://github.com/illuzor/Mighty-Preferences/blob/master/LICENSE'
-                    }
-                }
-                developers {
-                    developer {
-                        id = project.findProperty("bintrayId")
-                        name = project.findProperty("bintrayName")
-                        email = project.findProperty("bintrayEmail")
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from 'src/main/java'
-}
-
-task classesJar(type: Jar) {
-    from "$buildDir/intermediates/classes/release"
-}
-
-artifacts {
-    archives classesJar
-    archives sourcesJar
-}
-
-bintray {
-    user = project.findProperty("bintrayName")
-    key = project.findProperty("bintrayKey")
-
-    configurations = ['archives']
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = 'MightyPreferences'
-        desc = 'Kotlin library for andriod. Wrapper for SharedPreferences which provides additional possibilities.'
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ['MIT']
-        publicDownloadNumbers = true
-    }
 }
