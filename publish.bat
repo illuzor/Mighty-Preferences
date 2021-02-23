@@ -1,1 +1,1 @@
-gradlew clean build install bintrayUpload
+gradlew mightypreferences:publishReleasePublicationToSonatypeRepository

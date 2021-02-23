@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/illuzor/maven/MightyPreferences/images/download.svg) ](https://bintray.com/illuzor/maven/MightyPreferences/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.illuzor/mightypreferences/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.illuzor/mightypreferences)
 [![API](https://img.shields.io/badge/API-14%2B-orange.svg?style=flat)](https://android-arsenal.com/api?level=14)
 [![Build Status](https://travis-ci.org/illuzor/Mighty-Preferences.svg?branch=master)](https://travis-ci.org/illuzor/Mighty-Preferences)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
@@ -13,10 +13,10 @@ How to use
 
 ```groovy
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
-implementation 'com.illuzor.mightypreferences:mightypreferences:0.0.11:@aar'
+implementation 'com.illuzor:mightypreferences:0.0.11'
 ```
 #### Initialization
 
